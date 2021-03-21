@@ -1,18 +1,22 @@
 <?php
-$email=$_POST['emailid'];
-include 'db_confiq.php';  
+$name=$_POST['Name'];
+$email=$_POST['email'];
+$servername='localhost';
+$username='root';
+$password='';
+$database = "ajex";
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $database) or die("Connection failed");
 
-$sql = "SELECT * FROM `user_login` WHERE `Username`='$email'";
-$result=mysqli_query($conn, $sql);
+ $sql = "INSERT INTO `test` (`id`, `name`, `email`) VALUES (NULL, '$name', '$email')";
 
-if(mysqli_num_rows($result)>0){
-    echo "Email id is already exist";
+
+if(mysqli_query($conn, $sql)){
+    echo 1;
 
 }
 else{
-    echo"Email Avalible";
+    echo 0;
 }
 
 

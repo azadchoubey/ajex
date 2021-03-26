@@ -1,5 +1,7 @@
 <?php
-$name=$_POST['Name'];
+
+
+
 $email=$_POST['email'];
 $servername='localhost';
 $username='root';
@@ -8,16 +10,15 @@ $database = "ajex";
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $database) or die("Connection failed");
 
- $sql = "INSERT INTO `test` (`id`, `name`, `email`) VALUES (NULL, '$name', '$email')";
-$result = mysqli_query($conn, $sql) or  $error=mysqli_error($conn);
+$sql = "SELECT * FROM `test` WHERE `Email`='$email'";
+$result=mysqli_query($conn, $sql) or die("Query Failed");
 
-if($result){
+if(mysqli_num_rows($result)>0){
     echo 1;
 
 }
 else{
-    echo $error;
+    echo 0;
 }
-
 
 ?>

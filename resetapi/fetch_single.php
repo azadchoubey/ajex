@@ -7,9 +7,9 @@ $pull_req=json_decode(file_get_contents("php://input"),true);
 
 $pull_id=$pull_req['pull_sid'];
 
-$conn=mysqli_connect('localhost','root','','login') or die("Connot Connnect to Server");
+$conn=mysqli_connect('localhost','root','','ajex') or die("Connot Connnect to Server");
 
-$sql = "SELECT * FROM ajex WHERE id ={$pull_id}";
+$sql = "SELECT * FROM test WHERE id ={$pull_id}";
 
 $result = mysqli_query($conn,$sql);
 

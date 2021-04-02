@@ -21,16 +21,17 @@
     <title>Index</title>
 </head>
 <body>
-<form id="form ">
-        <p id="hidden" class='text-center'></p>
-  
+<div class='bg-secondary.bg-gradient'>
+<form id="form " class="text-center mt-4 ">
+<p id="hidden" class="text-center mt-4" style="display:none;"> </p>
     <label>Name</label>
     <input type="text"  id="addname" name="Name"/>
     <label>Email</label>
     <input type="email "  id="addemail"  name="email" />
-    <input type="button" id="submit" value="Add" disabled />
+    <input type="button" id="submit" class='btn btn-warning' value="Submit" disabled />
 </form>
-    <table class="table w-75 text-center ml-auto mr-auto ">
+</div>
+    <table class="table w-75 text-center ml-auto mr-auto mt-4 ">
         <thead class="table-primary ">
             <th>S.no</th>
             <th>Name</th>
@@ -57,7 +58,7 @@
                     <input type="text" class="form-control" id="Email" />
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save Changes</button>
+                    <button type="button" id="edtbtn" class="btn btn-primary">Save Changes</button>
                 </div>
             </div>
         </div>
@@ -86,7 +87,7 @@
     $(document).ready(function() {
         function loading() {
             $.ajax({
-                url: "http://localhost/resetapi/json.php/",
+                url: "http://localhost/resetapi/fetch_all.php/",
                 type: "GET",
                 success: function(data) {
                     if (data.Status == false) {
@@ -94,13 +95,15 @@
                             "</h2></td></tr>")
                     } else {
                         $.each(data, function(key, value) {
+                            
+                               
                             $('#show').append("<tr>" +
-                                "<td>" + value.id + " </td>" +
+                                "<td>" +( ++key )+ " </td>" +
                                 "<td>" + value.Name + " </td>" +
                                 "<td>" + value.Email + " </td>" +
-                                "<td> <button class='btn-success' id='myBtn' data-id='" +
+                                "<td> <button class='btn btn-success' id='myBtn' data-id='" +
                                 value.id + "'> Edit</button> </td>" +
-                                "<td> <button class='btn-danger' id='dltbtn' data-id='" +
+                                "<td> <button class='btn btn-danger' id='dltbtn' data-id='" +
                                 value.id + "'> Delete</button> </td>" +
                                 "</tr>")
                         })
@@ -117,7 +120,6 @@
             var json = JSON.stringify(obj);
             $(document).on("click", "#dltconf", function() {
               $("#myModal1").modal('hide');
-
             $.ajax({
                 url: "http://localhost/resetapi/del_single.php/",
                 type: "POST",
@@ -132,7 +134,6 @@
                             setTimeout(function() {
                             $('#hidden').fadeOut()
                         }, 3000)
-
                             $('#dltbtn').parents("tr").animate({ backgroundColor: "#002" }, "fast")
                                .animate({ opacity: "hide" }, "fast");
                    }
@@ -142,11 +143,8 @@
                             $('#hidden').html(data.Message);
                    }
                 }      
-
             })    
-
           })   
-
         })  
         $(document).on("click", "#myBtn", function() {
             $("#myModal").modal();
@@ -164,12 +162,58 @@
                     $('#Email').val(data[0].Email)
                 }
             })
+            $(document).on("click", "#edtbtn", function() {
+    
+    var Email = $('#name').val();
+    var Name = $('#Email').val();
+
+    var obj1 = {
+                  pull_sid: dataid,
+                  name: Email,
+                  email: Name
+              };
+
+              console.log(obj1);
+              var json = JSON.stringify(obj1);
+              $.ajax({
+                  url: "http://localhost/resetapi/update_single.php/",
+                  type: "POST",
+                  data: json,
+                  success: function(data) {
+                    $('#myModal').modal('hide');
+                      if(data.Status==true){
+                         
+                          $('#hidden').fadeIn();
+                              $('#hidden').css("color", "Green");
+                              $('#hidden').html(data.Message);
+                              setTimeout(function() {
+                              $('#hidden').fadeOut()
+                          }, 3000)
+  
+                      }if(data.Status== false){
+                          $('#hidden').fadeIn();
+                              $('#hidden').css("color", "Green");
+                              $('#hidden').html(data.Message);
+                              setTimeout(function() {
+                              $('#hidden').fadeOut()
+                          }, 3000)
+  
+                      }
+                  }
+              })
+  
+  
+          })
+
         })
         $(document).on("click", "#dltbtn", function() {
             $("#myModal1").modal();
         })
      
     });
+
+  
+
     </script>
     <script type="text/javascript" >
     $('#addemail').keyup(function() {
@@ -215,7 +259,6 @@
     })
     </script>
 <script type="text/javascript">
-
 $(document).on("click", "#submit", function() {
   var Email = $('#addemail').val();
   var Name = $('#addname').val();
@@ -233,13 +276,14 @@ $(document).on("click", "#submit", function() {
               $.ajax({
                 url: "http://localhost/resetapi/load.php",
                 type: "POST",
-                data: $('#form').serialize(), 
+                data: {'Name':Name,'email':Email},
                 success:  function(data) {
                         if (data ==1) {
                             $('#form').trigger("reset");
                             $('#hidden').fadeIn();
                             $('#hidden').css("color", "Green");
                             $('#hidden').html('Record added Sucessfully');
+                          
                             okButton.disabled = true;
                             setTimeout(function() {
                                 $('#hidden').fadeOut();
@@ -257,15 +301,12 @@ $(document).on("click", "#submit", function() {
                 
          
         })  })
-
 </script>
-
 <script>
+   
        
-
+            
+     
         </script> 
-
-
-
 </body>
 </html>

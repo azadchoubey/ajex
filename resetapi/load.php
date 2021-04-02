@@ -1,14 +1,15 @@
 <?php
+
 $name=$_POST['Name'];
 $email=$_POST['email'];
 $servername='localhost';
 $username='root';
 $password='';
-$database = "ajex";
+$database = "login";
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $database) or die("Connection failed");
 
- $sql = "INSERT INTO `test` (`id`, `name`, `email`) VALUES (NULL, '$name', '$email')";
+$sql = "INSERT INTO `ajex` (`id`, `Email`, `Name`) VALUES (NULL, '$email', '$name')";
 $result = mysqli_query($conn, $sql) or  $error=mysqli_error($conn);
 
 if($result){
@@ -16,7 +17,7 @@ if($result){
 
 }
 else{
-    echo $error;
+    echo 0;
 }
 
 

@@ -6,11 +6,11 @@ $email=$_POST['email'];
 $servername='localhost';
 $username='root';
 $password='';
-$database = "ajex";
+$database = "login";
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $database) or die("Connection failed");
 
-$sql = "SELECT * FROM `test` WHERE `Email`='$email'";
+$sql = "SELECT * FROM `ajex` WHERE `Email`='$email'";
 $result=mysqli_query($conn, $sql) or die("Query Failed");
 
 if(mysqli_num_rows($result)>0){

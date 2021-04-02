@@ -12,7 +12,7 @@ if(mysqli_num_rows($result)>0)
     echo json_encode($output,JSON_PRETTY_PRINT);
 }
 else{
-    echo json_encode(array("Message" => 'failed', "Status"=> false));  
+    echo json_encode(array("Message" => 'No Records Found', "Status"=> false));  
 }
 
 ?>
